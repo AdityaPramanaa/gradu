@@ -165,21 +165,33 @@ function App() {
                 <div className="flex justify-center gap-4 relative">
                   <button
                     onClick={handleYesClick}
-                    className="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-110 shadow-lg shadow-green-500/50"
+                    className="group relative bg-gradient-to-r from-green-400 via-emerald-500 to-teal-500 hover:from-green-500 hover:via-emerald-600 hover:to-teal-600 text-white font-bold py-4 px-10 rounded-2xl transition-all duration-500 transform hover:scale-110 hover:rotate-1 shadow-2xl shadow-green-500/50 hover:shadow-green-500/70 overflow-hidden animate-button-glow"
                   >
-                    MAU! 💖
+                    <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-green-400/20 via-emerald-500/20 to-teal-500/20 animate-pulse-slow"></div>
+                    <span className="relative z-10 flex items-center gap-2">
+                      <span className="text-lg font-extrabold">MAU!</span>
+                      <span className="text-xl animate-bounce">💖</span>
+                    </span>
                   </button>
                   
                   <button
                     onMouseEnter={handleNoButtonHover}
                     onClick={handleNoButtonHover}
-                    className="bg-gradient-to-r from-red-500 to-rose-500 hover:from-red-600 hover:to-rose-600 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 shadow-lg shadow-red-500/50 absolute"
+                    className="group relative bg-gradient-to-r from-red-400 via-rose-500 to-pink-500 hover:from-red-500 hover:via-rose-600 hover:to-pink-600 text-white font-bold py-4 px-10 rounded-2xl transition-all duration-500 shadow-2xl shadow-red-500/50 hover:shadow-red-500/70 overflow-hidden absolute animate-button-glow-red"
                     style={{
                       transform: `translate(${noButtonPosition.x}px, ${noButtonPosition.y}px)`,
                       transition: 'transform 0.3s ease-out'
                     }}
                   >
-                    {getNoButtonText()}
+                    <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-red-400/20 via-rose-500/20 to-pink-500/20 animate-pulse-slow-delayed"></div>
+                    <span className="relative z-10 flex items-center gap-2">
+                      <span className="text-lg font-extrabold">{getNoButtonText()}</span>
+                      <span className="text-xl animate-pulse">😤</span>
+                    </span>
                   </button>
                 </div>
                 
