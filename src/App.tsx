@@ -1,17 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import { GraduationCap, Heart, Sparkles, Star } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { GraduationCap, Heart, Sparkles, Star, Play, Pause, Volume2, VolumeX } from 'lucide-react';
 
 function App() {
   const [showQuestion, setShowQuestion] = useState(false);
   const [noButtonPosition, setNoButtonPosition] = useState({ x: 0, y: 0 });
   const [noButtonClicks, setNoButtonClicks] = useState(0);
   const [showCelebration, setShowCelebration] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowQuestion(true);
     }, 3000);
     return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = 0.3;
+      audioRef.current.play().then(() => {
+        setIsPlaying(true);
+      }).catch(err => {
+        console.log('Auto-play prevented:', err);
+      });
+    }
   }, []);
 
   const handleNoButtonHover = () => {
@@ -33,8 +49,100 @@ function App() {
     return 'mau ajaa ne nyet😤';
   };
 
+  const togglePlayPause = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  const toggleMute = () => {
+    if (audioRef.current) {
+      audioRef.current.muted = !isMuted;
+      setIsMuted(!isMuted);
+    }
+  };
+
+  const handleTimeUpdate = () => {
+    if (audioRef.current) {
+      setCurrentTime(audioRef.current.currentTime);
+    }
+  };
+
+  const handleLoadedMetadata = () => {
+    if (audioRef.current) {
+      setDuration(audioRef.current.duration);
+    }
+  };
+
+  const formatTime = (time: number) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  };
+
   return (
     <div className="min-h-screen relative overflow-hidden">
+      {/* Audio Player */}
+      <audio
+        ref={audioRef}
+        src="/gradu/Rearrange My World.mp3"
+        onTimeUpdate={handleTimeUpdate}
+        onLoadedMetadata={handleLoadedMetadata}
+        loop
+      />
+
+      {/* Running Board for Song Title */}
+      <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-blue-600/90 via-purple-600/90 to-indigo-600/90 backdrop-blur-md border-b border-white/20">
+        <div className="container mx-auto px-4 py-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                <span className="text-white text-sm">🎵</span>
+              </div>
+              <div className="text-white font-medium">
+                <span className="text-sm opacity-80">Now Playing:</span>
+                <span className="ml-2 font-semibold">"Rearrange My World"</span>
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-4">
+              {/* Progress Bar */}
+              <div className="hidden sm:flex items-center gap-2 text-white text-xs">
+                <span>{formatTime(currentTime)}</span>
+                <div className="w-24 h-1 bg-white/30 rounded-full overflow-hidden">
+                  <div 
+                    className="h-full bg-white rounded-full transition-all duration-100"
+                    style={{ width: `${duration > 0 ? (currentTime / duration) * 100 : 0}%` }}
+                  ></div>
+                </div>
+                <span>{formatTime(duration)}</span>
+              </div>
+
+              {/* Audio Controls */}
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={togglePlayPause}
+                  className="w-8 h-8 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center text-white transition-all duration-200 hover:scale-110"
+                >
+                  {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+                </button>
+                <button
+                  onClick={toggleMute}
+                  className="w-8 h-8 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center text-white transition-all duration-200 hover:scale-110"
+                >
+                  {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Animated Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-blue-100 animate-gradient">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-200/30 via-cyan-200/30 to-blue-300/30 animate-pulse-slow"></div>
@@ -93,7 +201,7 @@ function App() {
         <div className="absolute bottom-1/4 right-1/4 w-3 h-3 bg-sky-300 rounded-full animate-pulse-slow-delayed shadow-lg shadow-sky-300/50"></div>
       </div>
 
-      <div className="container mx-auto px-4 py-8 relative z-10">
+      <div className="container mx-auto px-4 py-8 relative z-10 mt-20">
         {/* Header Section */}
         <div className="text-center mb-12">
           <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-blue-500 via-cyan-500 to-indigo-500 rounded-full mb-6 animate-bounce shadow-2xl shadow-blue-500/50">
