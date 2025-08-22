@@ -10,6 +10,7 @@ function App() {
   const [isMuted, setIsMuted] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [autoplayBlocked, setAutoplayBlocked] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
@@ -22,11 +23,39 @@ function App() {
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.volume = 0.3;
-      audioRef.current.play().then(() => {
-        setIsPlaying(true);
-      }).catch(err => {
-        console.log('Auto-play prevented:', err);
-      });
+      audioRef.current.preload = 'auto';
+      
+      // Try to autoplay with user interaction
+      const playAudio = async () => {
+        try {
+          await audioRef.current!.play();
+          setIsPlaying(true);
+          setAutoplayBlocked(false);
+        } catch (err) {
+          console.log('Auto-play prevented, waiting for user interaction:', err);
+          setAutoplayBlocked(true);
+          
+          // Add click event listener to start audio
+          const startAudio = () => {
+            audioRef.current!.play().then(() => {
+              setIsPlaying(true);
+              setAutoplayBlocked(false);
+              document.removeEventListener('click', startAudio);
+              document.removeEventListener('keydown', startAudio);
+              document.removeEventListener('touchstart', startAudio);
+              document.removeEventListener('scroll', startAudio);
+            });
+          };
+          
+          document.addEventListener('click', startAudio);
+          document.addEventListener('keydown', startAudio);
+          document.addEventListener('touchstart', startAudio);
+          document.addEventListener('scroll', startAudio);
+        }
+      };
+      
+      // Delay autoplay slightly to ensure DOM is ready
+      setTimeout(playAudio, 100);
     }
   }, []);
 
@@ -122,6 +151,13 @@ function App() {
                 </div>
                 <span>{formatTime(duration)}</span>
               </div>
+
+              {/* Autoplay Blocked Indicator */}
+              {autoplayBlocked && (
+                <div className="hidden sm:flex items-center gap-2 text-yellow-300 text-xs animate-pulse">
+                  <span>🔇 Click anywhere to start music</span>
+                </div>
+              )}
 
               {/* Audio Controls */}
               <div className="flex items-center gap-2">
@@ -305,7 +341,7 @@ function App() {
                 
                 {noButtonClicks > 0 && (
                   <p className="text-sm text-blue-600 mt-4 animate-bounce drop-shadow-lg">
-                    {noButtonClicks < 5 ? "Button No-nya kabur nih! 😄" : "Udah menyerah belum? 😏"}
+                    {noButtonClicks < 5 ? "Ngapain kak 😄" : "hehehhe 😏"}
                   </p>
                 )}
               </div>
