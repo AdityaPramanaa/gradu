@@ -120,7 +120,7 @@ function App() {
             <div className="w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-8 border-gradient-to-r from-blue-400 via-cyan-500 to-indigo-600 shadow-2xl animate-scale-in relative">
               <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 via-cyan-500/20 to-indigo-600/20 animate-pulse-slow"></div>
               <img 
-                src="/public/image.png" 
+                src="/gradu/image.png" 
                 alt="Cindy"
                 className="w-full h-full object-cover hover:scale-110 transition-transform duration-500 relative z-10"
               />
