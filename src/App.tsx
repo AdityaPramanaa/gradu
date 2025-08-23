@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { GraduationCap, Heart, Sparkles, Star, Play, Pause, Volume2, VolumeX } from 'lucide-react';
 
 function App() {

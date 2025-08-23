@@ -1,0 +1,11 @@
+* [33mec1c0d9[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m feat: improve autoplay dengan user interaction detection dan visual indicator
+[31m|[m * [33m89b885e[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Update index.html
+[31m|[m * [33ma5f93a1[m Update App.tsx
+[31m|[m[31m/[m  
+* [33md378679[m feat: improve autoplay dengan user interaction detection dan visual indicator
+* [33m48ac28a[m feat: tambahkan audio player dengan running board untuk lagu Rearrange My World
+* [33m3a8a0fb[m fix: update assets dengan path gambar yang benar untuk GitHub Pages
+* [33m0fabd3f[m feat: tambahkan favicon emoji monyet
+* [33mc646f7b[m fix: perbaiki path gambar dan update assets untuk GitHub Pages
+* [33mecad723[m fix: tambahkan file assets yang hilang untuk GitHub Pages
+* [33m7161b70[m fix: perbaiki path assets dan tambahkan vite.svg untuk GitHub Pages
