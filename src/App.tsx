@@ -249,11 +249,11 @@ function App() {
           </h1>
           
           <div className="text-2xl md:text-3xl font-semibold text-blue-700 mb-2 animate-fade-in-up drop-shadow-lg">
-            🎓 Happy Graduation 🎓
+            🎓 Happy Graduation Monyet 🎓
           </div>
           
           <div className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-cyan-600 to-indigo-600 animate-fade-in-up animation-delay-300 drop-shadow-lg">
-            Ni Putu Cindy Subawanti 
+            Ni Made Ayu Cindy Subawanti 
             🐒
           </div>
         </div>
